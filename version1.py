@@ -3,7 +3,7 @@ def login():
     username = input("Enter username:")
     password = input("Enter password:")
 
-    if username == "ReedTest" and password == "TestPassword":
+    if username == "test" and password == "test":
         print("Login successful!\n")
         return True
     else:
@@ -17,16 +17,21 @@ def display_menu(menu):
         # item[0] is name, item[1] is price
         print(f"{item[0].title()} - ${item[1]:.2f}")
 def take_order(menu):
-    order = input("\nWhat would you like to order:").lower() #ordering what the user wants
-    if order in menu:
-        print(f"You ordered a {order}, thank you have a nice day")
+    order = input("\nWhat would you like to order:").lower()  #ordering what the user wants
+
+    menu_items = [item[0] for item in menu]
+    if order in menu_items:
+        for item in menu:
+            if item[0] == order:
+                print(f"You ordered a {order}")
+                print(f"That will be ${item[1]:.2f}, thank you come again!")
+                break
     else:
-        print("we do not have that item") #checks if it has item ordered, if not prints it doesn't have it
+        print("We do not have that item.")
 menu = [
     ("butter chicken pie", 5.50),
     ("steak and cheese pie", 5.50),
     ("potato topper", 5.50),
-    ("steak and cheese pie", 5.50),
     ("aqua can", 3.50),
     ("chicken sub", 6.50),
     ("pork rib sub", 6.50),
