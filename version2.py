@@ -6,23 +6,27 @@ TAX_RATE = 0.15
 MAX_BALANCE = 100
 
 
-def login():
+def login():  # simple set login information
     max_attempts = 3
     attempts = 0
 
     print("\n-----LOGIN-----\n")
 
-    while max_attempts > attempts:
+    while attempts < max_attempts:
         username = input("Enter username:")
         password = input("Enter password:")
 
-    if username == "test" and password == "test":
-        print("Login successful!\n")
-        return True
-    else:
-        attempts += 1
-        remaining = max_attempts - attempts
-        print(f"Login Failed, you have {remaining} more attempts to login")
+        if username == "test" and password == "test":
+            print("Login successful!\n")
+            return True
+        else:
+            attempts += 1
+            remaining = max_attempts - attempts
+            print(f"Login Failed, you have {remaining} more attempts to login")
+
+    print("Maximum login attempts exceeded.")
+    return False
+
 def get_balance():
     balance = float(input("How much money would you like to put into your account?: $"))
 
