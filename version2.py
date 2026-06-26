@@ -63,6 +63,7 @@ def process_order(item, balance):
     if balance < total:
         print("You do not have enough money.")
         return balance
+    
 
     balance -= total
     item["stock"] -= 1
