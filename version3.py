@@ -51,13 +51,18 @@ def display_menu(menu):
 
     print("=" * 60)
 def take_order(menu):
-    order = input("\nWhat would you like to order? ").lower()
+    while True:
+        try:
+            choice = int(input("\nEnter the item number: "))
 
-    for item in menu:
-        if item["name"] == order:
-            return item
+            if choice == 0:
+                return None
+            if 1 <= choice <= len(menu):
+                return menu[choice - 1]
+            print("Please enter a valid number.")
 
-    return None
+        except ValueError:
+            print("Please enter a number.")
 
 def process_order(item, balance):
     if item["stock"] <= 0:
