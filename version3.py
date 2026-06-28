@@ -51,19 +51,31 @@ def display_menu(menu):
 
     print("=" * 60)
 def take_order(menu):
+    cart = []
+
     while True:
         try:
-            choice = int(input("\nEnter the item number: "))
+            choice = int(input("\nEnter the item number (0 to checkout): "))
 
             if choice == 0:
-                return None
+                break
+
             if 1 <= choice <= len(menu):
-                return menu[choice - 1]
-            print("Please enter a valid number.")
+                item = menu[choice - 1]
+
+                quantity = int(input("How many would you like?: "))
+
+                cart.append({
+                    "item": item,
+                    "quantity": quantity
+                })
+
+            else:
+                print("Invalid item number.")
 
         except ValueError:
-            print("Please enter a number.")
-
+            print("Please enter numbers only.")
+    return cart
 def process_order(item, balance):
     if item["stock"] <= 0:
         print("Sorry, that item is out of stock.")
