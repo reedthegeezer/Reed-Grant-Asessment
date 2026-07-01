@@ -28,7 +28,7 @@ def login():  # simple set login information
     return False
 
 def get_balance():
-    balance = float(input("How much money would you like to put into your account?(MAXIMUM 100, DO NOT DEPOSIT ANYMORE THAN THAT): $"))
+    balance = float(input("How much money would you like to put into your account?(maximum amount of 100): $"))
 
     if balance > MAX_BALANCE:
         balance = MAX_BALANCE
