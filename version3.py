@@ -76,37 +76,46 @@ def take_order(menu):
         except ValueError:
             print("Please enter numbers only.")
     return cart
-def process_order(item, balance):
-    if item["stock"] <= 0:
-        print("Sorry, that item is out of stock.")
+def process_order(item, quantity, balance):
+
+    # Check if enough stock
+    if item["stock"] < quantity:
+        print(f"Sorry, only {item['stock']} {item['name']} left in stock.")
         return balance
 
-    tax = item["price"] * TAX_RATE
-    total = item["price"] + tax
+    # Calculate costs
+    subtotal = item["price"] * quantity
+    tax = subtotal * TAX_RATE
+    total = subtotal + tax
 
+    # Check if customer has enough money
     if balance < total:
-        print("You do not have enough money.")
+        print(f"Not enough money to buy {quantity} x {item['name']}.")
         return balance
-    
 
+    # Update balance and stock
     balance -= total
-    item["stock"] -= 1
+    item["stock"] -= quantity
 
+    # Print receipt
     print("\n----- RECEIPT -----")
     print(f"Item: {item['name'].title()}")
-    print(f"Price: ${item['price']:.2f}")
+    print(f"Quantity: {quantity}")
+    print(f"Price Each: ${item['price']:.2f}")
+    print(f"Subtotal: ${subtotal:.2f}")
     print(f"GST (15%): ${tax:.2f}")
     print(f"Total: ${total:.2f}")
     print(f"Remaining Balance: ${balance:.2f}")
 
-    save_invoice(item, tax, total)
+    save_invoice(item, quantity, tax, total)
 
     return balance
 
-def save_invoice(item, tax, total):
+def save_invoice(item, quantity, tax, total):
     invoice = {
         "item": item["name"],
-        "price": item["price"],
+        "quantity": quantity,
+        "price_each": item["price"],
         "tax": round(tax, 2),
         "total": round(total, 2)
     }
@@ -153,9 +162,14 @@ if login():
         balance = get_balance()
         display_menu(menu)
 
-        item = take_order(menu)
+        cart = take_order(menu)
 
-        if item:
-            balance = process_order(item, balance)
-        else:
-            print("We do not have that item.")
+if cart:
+    for order in cart:
+        balance = process_order(
+            order["item"],
+            order["quantity"],
+            balance
+        )
+else:
+    print("Your cart is empty.")
