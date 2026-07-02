@@ -54,28 +54,64 @@ def take_order(menu):
     cart = []
 
     while True:
-        try:
-            choice = int(input("\nEnter the item number (0 to checkout): "))
+        print("\n1. View item information (disclaimer: Item nutrition is placeholder, not reliable)")
+        print("2. Add item to cart")
+        print("0. Checkout")
+        
+        option = input("Choose an option: ")
 
-            if choice == 0:
-                break
+        if option == "1":
+            view_item_info(menu)
 
-            if 1 <= choice <= len(menu):
-                item = menu[choice - 1]
+        elif option == "2":
+            try:
+                choice = int(input("Enter the item number: "))
 
-                quantity = int(input("How many would you like?: "))
+                if 1 <= choice <= len(menu):
+                    item = menu[choice - 1]
 
-                cart.append({
-                    "item": item,
-                    "quantity": quantity
-                })
+                    quantity = int(input("How many would you like?: "))
 
-            else:
-                print("Invalid item number.")
+                    cart.append({
+                        "item": item,
+                        "quantity": quantity
+                    })
+                else:
+                    print("Invalid item number.")
 
-        except ValueError:
-            print("Please enter numbers only.")
+            except ValueError:
+                print("Please enter numbers only.")
+
+        elif option == "0":
+            break
+
+        else:
+            print("Invalid option.")
+
     return cart
+def view_item_info(menu):
+    try:
+        choice = int(input("\nEnter the item number to view information: "))
+
+        if 1 <= choice <= len(menu):
+            item = menu[choice - 1]
+
+            print("\n----- ITEM INFORMATION -----")
+            print(f"Name: {item['name'].title()}")
+            print(f"Price: ${item['price']:.2f}")
+            print(f"Stock: {item['stock']}")
+
+            print(f"Description: {item.get('description', 'No description available')}")
+            print(f"Calories: {item.get('calories', 'N/A')}")
+            print(f"Protein: {item.get('protein', 'N/A')}")
+            print(f"Carbs: {item.get('carbs', 'N/A')}")
+            print(f"Fat: {item.get('fat', 'N/A')}")
+            print(f"Allergies: {item.get('allergies', 'No allergy information')}")
+        else:
+            print("Invalid item number.")
+
+    except ValueError:
+        print("Please enter a number.")
 def process_order(item, quantity, balance):
 
     # Check if enough stock
@@ -128,33 +164,40 @@ def save_invoice(item, quantity, tax, total):
 menu = [
     {"name": "butter chicken pie", "price": 5.50, "stock": 10, 
      "calories": 450, "protein": "18g", "carbs": "35g", "fat": "22g", 
-     "description": "Traditional New Zealand Pie Filled With Butter Chicken"},
+     "description": "Traditional New Zealand Pie Filled With Butter Chicken",
+    "allergies": "Contains: Wheat, Milk, Gluten"},
 
     {"name": "steak and cheese pie", "price": 5.50, "stock": 8,
      "calories": 450, "protein": "18g", "carbs": "35g", "fat": "22g", 
-     "description": "Traditional New Zealand Steak and Cheese pie"},
+     "description": "Traditional New Zealand Steak and Cheese pie",
+    "allergies": "Contains: Wheat, Milk, Gluten"},
 
     {"name": "potato topper", "price": 5.50, "stock": 12,
     "calories": 450, "protein": "18g", "carbs": "35g", "fat": "22g", 
-    "description": "A mince pastry with some cooked mashed potato on top"},
+    "description": "A mince pastry with some cooked mashed potato on top",
+    "allergies": "Contains: Wheat, Milk, Gluten"},
 
     {"name": "aqua can", "price": 3.50, "stock": 15},
 
     {"name": "chicken sub", "price": 6.50, "stock": 5,
      "calories": 450, "protein": "18g", "carbs": "35g", "fat": "22g", 
-     "description": "A Sandwich With Bread, Chicken, Lettuce, Cheese and a special sauce"},
+     "description": "A Sandwich With Bread, Chicken, Lettuce, Cheese and a special sauce",
+    "allergies": "Contains: Wheat, Milk, Gluten"},
 
     {"name": "pork rib sub", "price": 6.50, "stock": 5,
      "calories": 450, "protein": "18g", "carbs": "35g", "fat": "22g", 
-     "description": "A Sandwhich With Pork Ribs, BBQ Sauce and cheese"},
+     "description": "A Sandwhich With Pork Ribs, BBQ Sauce and cheese",
+    "allergies": "Contains: Wheat, Milk, Gluten"},
     
     {"name": "wrap", "price": 3.50, "stock": 7,
      "calories": 450, "protein": "18g", "carbs": "35g", "fat": "22g", 
-     "description": "A Wrap with chicken, a basic salad inside and some dressing"},
+     "description": "A Wrap with chicken, a basic salad inside and some dressing",
+    "allergies": "Contains: Wheat, Milk, Gluten"},
 
     {"name": "brownie", "price": 3.00, "stock": 10,
      "calories": 450, "protein": "18g", "carbs": "35g", "fat": "22g", 
-     "description": "Traditional New Zealand Brownie"},
+     "description": "Traditional New Zealand Brownie",
+    "allergies": "Contains: Wheat, Milk, Gluten"},
 
     {"name": "slushy", "price": 2.50, "stock": 20}
     ] #menu with some items that include prices and stock amounts
